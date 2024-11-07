@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+  swaggynita-mysql:
+    image: mysql
+    restart: always
+    container_name: "swaggynita-mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./data.sql:/docker-entrypoint-initdb.d/data.sql
+      - swaggynita-mysql-data:/var/lib/mysql
+
+  shoppingcenter-redis:
+    image: "redis:latest"
+    container_name: "swaggynita-redis-container"
+    ports:
+      - "6379:6379"
+    volumes:
+      - swaggynita-redis-data:/data
+
+volumes:
+  swaggynita-redis-data:
+  swaggynita-mysql-data:
