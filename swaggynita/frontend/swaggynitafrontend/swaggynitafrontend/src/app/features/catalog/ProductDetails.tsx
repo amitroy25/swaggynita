@@ -3,22 +3,25 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Product } from "../../model/product";
 import axios from "axios";
+import agent from "../../api/agent";
+import NotFound from "../../error/NotFoundError";
+import Spinner from "../../layout/Spinner";
 
 
 export default function ProductDetails(){
 
     const {id} =  useParams<{id:string}>();
     const [product,setProduct] = useState<Product | null>();
-    const [lodaing,setLoading] = useState(true);
+    const [loading,setLoading] = useState(true);
 
     useEffect(() => {
-                    axios.get(`http://localhost:8081/api/products/${id}`)
-                        .then(response => setProduct(response.data))
+                    id && agent.Store.details(parseInt(id))
+                        .then(response => setProduct(response))
                         .catch(error => console.log(error))
                         .finally(() => setLoading(false))
     },[id])
-    if(lodaing) return <h3>Loading Product...</h3>
-    if(!product) return <h3>Product Not Found</h3>
+    if(loading) return <Spinner message='Loading Product...'/>
+    if(!product) return <NotFound/>
     const extractImageName = (item: Product): string | null =>{
         if(item && item.pictureUrl){
           const parts = item.pictureUrl.split('/');

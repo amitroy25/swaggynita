@@ -1,6 +1,7 @@
 package com.swaggynita.com.swaggynita.service;
 
 import com.swaggynita.com.swaggynita.entity.Product;
+import com.swaggynita.com.swaggynita.exceptions.ProductNotFoundException;
 import com.swaggynita.com.swaggynita.model.ProductResponse;
 import com.swaggynita.com.swaggynita.repository.ProductRepository;
 import lombok.extern.log4j.Log4j2;
@@ -23,7 +24,7 @@ public class ProductServiceImpl implements ProductService{
         log.info("fetching Product by Id: {}", productId);
 
         Product product = productRepository.findById(productId)
-                .orElseThrow(()->new RuntimeException("Product doesn't exist"));
+                .orElseThrow(()->new ProductNotFoundException("Product doesn't exist"));
 
         //now convert the Product to Product Response
         ProductResponse productResponse = convertToProductResponse(product);

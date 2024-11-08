@@ -1,9 +1,32 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { router } from "../router/Router";
+import { toast } from "react-toastify";
 
 
-axios.defaults.baseURL ='https://localhost:8081/api'
+axios.defaults.baseURL ='http://localhost:8081/api'
 
+
+const idle = () => new Promise(resolve => setTimeout(resolve, 100));
 const responseBody = (response: AxiosResponse) => response.data;
+axios.interceptors.response.use(async response=>{
+ await idle();
+  return response
+}, (error: AxiosError)=>{
+  const {status} = error.response as AxiosResponse; 
+  switch(status){
+      case 404:
+          toast.error("Resource not found");
+          router.navigate('/not-found');
+          break;
+      case 500:
+          toast.error("Internal server error occurred");
+          router.navigate('/server-error');
+          break;
+      default:
+          break;
+  }
+  return Promise.reject(error.message);
+})
 
 const requests = {
                get: (url: string) => axios.get(url).then(responseBody),
@@ -15,7 +38,7 @@ const requests = {
 
                  const Store={
                      list: () => requests.get('products'),
-                     get:(id: number) => requests.get(`products/${id}`)
+                     details:(id: number) => requests.get(`products/${id}`)
 
                  }
 

@@ -1,18 +1,29 @@
 import { useState, useEffect } from "react"
 import { Product } from "../../model/product"
 import ProductList from "./ProductList"
+import agent from "../../api/agent"
+import Spinner from "../../layout/Spinner"
 
 
 export default function Catalog(){
     const [products,setProducts]=useState<Product[]>([])
+    const [loading,setLoading] = useState(true);
+
 
   
-        useEffect(()=>{
-          fetch('http://localhost:8081/api/products')
-          .then(response=>response.json())
-          .then(data=>setProducts(data.content))
+     
+
+        useEffect(() => {
+               agent.Store.list()
+                    .then((products) => setProducts(products.content))
+                    .catch(error => console.log(error))
+                    .finally(() => setLoading(false))
 
         },[])
+        if(!products) return <h3>Unable to load Products</h3>
+        if(loading) return <Spinner message='Loading Products...'/>
+
+        
 
         return (
             <>
