@@ -3,6 +3,7 @@ import { Dispatch } from "redux";
 import { Basket, BasketItem, BasketTotals } from "../model/basket";
 import { Product } from "../model/product";
 import { setBasket } from "../features/basket/basketSlice";
+import { createId } from "@paralleldrive/cuid2";
 
 
 
@@ -121,7 +122,7 @@ class BasketService {
     private async createBasket(): Promise<Basket>{
         try{
             const newBasket: Basket = {
-                id: 'Amit123',//createId(),
+                id: createId(),
                 items: []
             }
             localStorage.setItem('basket_id', newBasket.id);
@@ -168,3 +169,4 @@ class BasketService {
 
 
 }
+export default new BasketService();

@@ -16,7 +16,7 @@ return(
          <Grid container spacing={4}>
             
             {products.map(product=>(
-                <Grid item xs={3} key={product.id}>
+                <Grid item xs={4} key={product.id}>
                 <ProductCard product={product}/>
                 </Grid>
             ))}
