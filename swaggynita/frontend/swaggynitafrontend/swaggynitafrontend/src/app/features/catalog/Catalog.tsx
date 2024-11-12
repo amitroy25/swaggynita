@@ -4,8 +4,9 @@ import ProductList from "./ProductList"
 import agent from "../../api/agent"
 import Spinner from "../../layout/Spinner"
 import { Box, FormControl, FormControlLabel, FormLabel, Grid, Pagination, Paper, Radio, RadioGroup, TextField, Typography } from "@mui/material"
+import { Type } from "../../model/type"
 //import types from "@emotion/styled"
-import { Type } from "../../model/Type"
+//import { Type } from "../../model/Type"
 
 
 
