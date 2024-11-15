@@ -123,11 +123,17 @@ const requests = {
               }
               
               
-          
+              const Orders ={
+                list:() => requests.get('orders'),
+                fetch:(id:number) => requests.get(`orders/${id}`),
+                create:(values:any) => requests.post('orders', values)
+              }
+              
                  const agent = {
                            Store,
                            Basket,
-                           Account
+                           Account,
+                           Orders
                  }
 
                  export default agent;

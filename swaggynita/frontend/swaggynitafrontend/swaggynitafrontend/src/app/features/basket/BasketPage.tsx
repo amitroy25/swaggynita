@@ -5,6 +5,9 @@ import { Product } from "../../model/product";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { useAppSelector, useAppDispatch } from "../../store/configureStore";
+import BasketSummary from "./BasketSummary";
+import { Link } from "react-router-dom";
+
 
 
 
@@ -88,7 +91,7 @@ export default function BasketPage(){
                 </TableBody>
             </Table>
         </TableContainer>
-        {/* <Box mt={2} p={2} bgcolor="background.paper" borderRadius={4}>
+        <Box mt={2} p={2} bgcolor="background.paper" borderRadius={4}>
             <BasketSummary/>
             <Button
                 component={Link}
@@ -99,7 +102,7 @@ export default function BasketPage(){
             >
                 Checkout
             </Button>
-        </Box> */}
+        </Box>
         </>
     );
     
