@@ -37,13 +37,21 @@ public class SecurityConfig {
                         .requestMatchers("/products").authenticated()
                         .requestMatchers("/auth/login").permitAll()
                         .anyRequest().permitAll())
-                .exceptionHandling(ex-> ex.authenticationEntryPoint(entryPoint))
-                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
-        return http.build();
+                         .exceptionHandling(ex-> ex.authenticationEntryPoint(entryPoint))
+                         .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+                        return http.build();
     }
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception{
         return authenticationManagerBuilder.getObject();
     }
 }
+
+
+
+
+
+
+
+
