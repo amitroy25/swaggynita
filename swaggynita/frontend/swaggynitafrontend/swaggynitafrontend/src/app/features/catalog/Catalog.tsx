@@ -9,8 +9,6 @@ import { Type } from "../../model/type"
 //import { Type } from "../../model/Type"
 
 
-
-
 const sortOptions =[
     {value: "asc", label:"Ascending"},
     {value: "desc", label:"Descending"}

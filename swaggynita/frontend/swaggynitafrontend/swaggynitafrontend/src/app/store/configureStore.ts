@@ -8,7 +8,8 @@ import { accountSlice } from "../features/account/accountSlice";
 export const store = configureStore({
     reducer:{
         basket: basketSlice.reducer,
-        account: accountSlice.reducer
+        account: accountSlice.reducer,
+
     }
 })
 

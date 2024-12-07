@@ -1,7 +1,10 @@
-import { Container, CssBaseline, Box, Avatar, Typography, TextField, Button, Grid } from "@mui/material";
+import { Container, CssBaseline, Box, Avatar, Typography, TextField, Button, Grid,Link } from "@mui/material";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import {Link as RouterLink, useNavigate} from "react-router-dom";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { toast } from "react-toastify";
+import axios from "axios";
+import agent from "../../api/agent";
 
 
 
@@ -18,20 +21,59 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 
 export default function RegisterPage(){
+
+  const navigate = useNavigate();
     const [formData, setFormData] = useState({
       username: '',
       email: '',
       password: ''
     });
   
-    const handleChange = (e) =>{
+    const handleChange = (e: any) =>{
       const {name, value} = e.target;
       setFormData({...formData, [name]: value});
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e: any) => {
       e.preventDefault();
-      console.log(formData);
-    }
+      if (!validateForm()) return;
+    
+      try {
+        const response = await agent.Account.signup(formData); // The backend response contains the message
+        toast.success(response.message || "Signup successful!"); // Show the success message from the response
+        navigate("/login"); // Redirect to login
+      } catch (error) {
+        console.error("Error during signup:", error);
+    
+        if (axios.isAxiosError(error)) {
+          // Safely access Axios error properties
+          toast.error(
+            error.response?.data?.message || "Signup failed. Please try again."
+          );
+        } else {
+          // Handle non-Axios errors
+          toast.error("An unexpected error occurred. Please try again.");
+        }
+      }
+    };
+    
+  
+    const validateForm = () => {
+      const { username, email, password } = formData;
+      if (!username || !email || !password) {
+        toast.error("All fields are required.");
+        return false;
+      }
+      if (!/\S+@\S+\.\S+/.test(email)) {
+        toast.error("Invalid email format.");
+        return false;
+      }
+      if (password.length < 6) {
+        toast.error("Password must be at least 6 characters long.");
+        return false;
+      }
+      return true;
+    };
+  
       return (
           <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -95,7 +137,7 @@ export default function RegisterPage(){
                 </Button>
                 <Grid container justifyContent="flex-end">
                   <Grid item>
-                    <Link href="/login" variant="body2">
+                    <Link component={RouterLink} to="/login" variant="body2">
                       Already have an account? Sign in
                     </Link>
                   </Grid>

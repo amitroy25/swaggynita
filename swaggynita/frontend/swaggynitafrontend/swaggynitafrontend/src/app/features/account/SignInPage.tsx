@@ -2,9 +2,9 @@
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { LoadingButton } from "@mui/lab";
 
-import { Container, CssBaseline, Box, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button, Grid } from "@mui/material";
+import { Container, CssBaseline, Box, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button, Grid,Link } from "@mui/material";
 import { useForm, FieldValues } from 'react-hook-form';
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { useAppDispatch, store } from '../../store/configureStore';
 import { signInUser } from './accountSlice';
@@ -99,10 +99,10 @@ export default function SignInPage(){
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/register" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
+                        <Link component={RouterLink} to="/register" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
               </Grid>
             </Box>
           </Box>

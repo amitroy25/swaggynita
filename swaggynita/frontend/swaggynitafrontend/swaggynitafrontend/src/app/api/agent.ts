@@ -119,7 +119,8 @@ const requests = {
               }
 
               const Account = {
-                login: (values:any) =>requests.post('auth/login', values)
+                login: (values:any) =>requests.post('auth/login', values),
+                signup: (values:any) =>requests.post('auth/signup',values)
               }
               
               

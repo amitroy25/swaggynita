@@ -12,6 +12,9 @@ import RegisterPage from "../features/account/RegisterPage";
 import RequireAuth from "./RequireAuth";
 import CheckoutPage from "../features/checkout/CheckoutPage";
 import Order from "../features/orders/Order";
+import AdminUserLoginPage from "../features/account/AdminUserLogInPage";
+import AdminSignInPage from "../features/account/AdminSigninPage";
+import AdminDashboard from "../features/catalog/AdminDashboard";
 
 
 export const router= createBrowserRouter([
@@ -32,7 +35,12 @@ export const router= createBrowserRouter([
             {path: 'store/:id',element:<ProductDetails/>},
             {path: 'contact',element: <ContactPage/>},
             {path: 'basket',element: <BasketPage/>},
-            {path: 'login',element: <SignInPage/>},
+            {path: 'user-login',element: <SignInPage/>},
+            {path: 'admin-login',element: <AdminSignInPage/>},
+            {path: 'admin-dashboard',element: <AdminDashboard/>},
+
+
+            {path: 'login',element: <AdminUserLoginPage/>},
             {path: 'register',element: <RegisterPage/>},
 
 

@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import agent from "../../api/agent";
 import { User } from "../../model/user";
 import { router } from "../../router/Router";
+import axios from "axios";
 
 
 
@@ -36,6 +37,25 @@ export const signInUser = createAsyncThunk<User, FieldValues>(
         }
     }
 )
+
+
+export const signupUser = createAsyncThunk(
+    'auth/signup',
+    async (formData: any, thunkAPI) => {
+        try {
+            const response = await agent.Account.signup(formData);
+            return response.message; // Store the message in Redux state
+        } catch (error) {
+            // Type assertion for AxiosError
+            if (axios.isAxiosError(error) && error.response) {
+                return thunkAPI.rejectWithValue(error.response.data.message || "Signup failed.");
+            }
+            return thunkAPI.rejectWithValue("An unexpected error occurred.");
+        }
+    }
+);
+
+
 
 export const fetchCurrentUser = createAsyncThunk<User | null>(
     'auth/fetchCurrentUser',
@@ -83,6 +103,10 @@ export const accountSlice = createSlice({
         }
     },
     extraReducers:(builder=>{
+        builder.addCase(signupUser.fulfilled, (state, action) => {
+            toast.success(action.payload); // Show the success message
+            state.error = null; // Clear error state
+          });
         builder.addMatcher(isAnyOf(signInUser.fulfilled, fetchCurrentUser.fulfilled), (state, action)=>{
             state.user = action.payload;
             state.error = null;
